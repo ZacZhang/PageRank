@@ -56,7 +56,7 @@ public class UnitSum {
         job.setReducerClass(SumReduce.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(DoubleWritable.class);
+        job.setOutputValueClass(DoubleWritable.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

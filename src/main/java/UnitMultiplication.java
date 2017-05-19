@@ -29,14 +29,14 @@ public class UnitMultiplication {
             String[] fromTo = line.split("\t");
 
             // dead end
-            if (fromTo.length < 2 || fromTo[1].trim().equals("")) {
+            if (fromTo.length == 1 || fromTo[1].trim().equals("")) {
                 return;
             }
 
             String from = fromTo[0];
-            String[] to = fromTo[1].split(",");
-            for (String cur : to) {
-                context.write(new Text(from), new Text(cur + "=" + (double)(1/to.length)));
+            String[] tos = fromTo[1].split(",");
+            for (String to : tos) {
+                context.write(new Text(from), new Text(to + "=" + (double)1 / tos.length));
             }
         }
     }
@@ -88,7 +88,6 @@ public class UnitMultiplication {
     public static void main(String[] args) throws Exception {
 
         Configuration configuration = new Configuration();
-
         Job job = Job.getInstance(configuration);
         job.setJarByClass(UnitMultiplication.class);
 
@@ -98,7 +97,7 @@ public class UnitMultiplication {
         job.setReducerClass(MultiplicationReduce.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(Text.class);
+        job.setOutputValueClass(Text.class);
 
         // args[0]: transition.txt
         // args[1]: pr.txt
